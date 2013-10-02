@@ -82,6 +82,21 @@ Repository.prototype.status = function(callback) {
 };
 
 ////
+// Repository.config(key, val, callback)
+// Stages the passed array of files for commit
+////
+Repository.prototype.config = function(key, val, callback, useSync) {
+	  var gitAdd = new Command(this.path, 'config', [key], '"'+val+'"')
+	  , repo = this;
+	gitAdd.exec(function(error, stdout, stderr) {
+		var err = error || stderr;
+		if (callback && typeof callback === 'function') callback.call(repo, err);
+	}, useSync);
+};
+
+
+
+////
 // Repository.add([files], callback)
 // Stages the passed array of files for commit
 ////
